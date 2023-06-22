@@ -14,8 +14,10 @@ func TestListAccounts(t *testing.T) {
 		t.Parallel()
 		secretPassword := "secret_password"
 
-		account := entities.NewAccount("name test", "208.856.780-10", secretPassword)
-		expectedAcc := []entities.Account{*account}
+		account, err := entities.NewAccount("name test", "208.856.780-10", secretPassword)
+		assert.Nil(t, err)
+
+		expectedAcc := []entities.Account{account}
 
 		inputInit := InputInit{
 			GetAccountsMock: func(ctx context.Context) (*[]entities.Account, error) {
