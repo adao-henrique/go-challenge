@@ -9,4 +9,5 @@ import (
 type Repository interface {
 	Create(ctx context.Context, account *entities.Account) error
 	FindByCPF(ctx context.Context, cpf string) (*entities.Account, error)
+	GetAccounts(ctx context.Context) (*[]entities.Account, error)
 }

@@ -10,31 +10,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type InputInit struct {
-	CreateMock    func(ctx context.Context, account *entities.Account) error
-	FindByCPFMock func(ctx context.Context, cpf string) (*entities.Account, error)
-}
-
-type RepositoryMock struct {
-	CreateMock    func(ctx context.Context, account *entities.Account) error
-	FindByCPFMock func(ctx context.Context, cpf string) (*entities.Account, error)
-}
-
-func (r RepositoryMock) Create(ctx context.Context, account *entities.Account) error {
-	return r.CreateMock(ctx, account)
-}
-func (r RepositoryMock) FindByCPF(ctx context.Context, cpf string) (*entities.Account, error) {
-	return r.FindByCPFMock(ctx, cpf)
-}
-
-func Init(input InputInit) AccountUseCases {
-
-	return AccountUseCases{RepositoryMock{
-		CreateMock:    input.CreateMock,
-		FindByCPFMock: input.FindByCPFMock,
-	}}
-}
-
 func TestCreateAccouunt(t *testing.T) {
 	t.Run("Should create an account", func(t *testing.T) {
 		t.Parallel()
