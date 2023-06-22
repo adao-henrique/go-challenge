@@ -13,11 +13,12 @@ func TestGetAccountByID(t *testing.T) {
 	t.Run("Should create an account", func(t *testing.T) {
 		t.Parallel()
 		secretPassword := "secret_password"
-		expectedAcc := entities.NewAccount("name test", "208.856.780-10", secretPassword)
+		expectedAcc, err := entities.NewAccount("name test", "208.856.780-10", secretPassword)
+		assert.Nil(t, err)
 
 		inputInit := InputInit{
 			GetByIDMock: func(ctx context.Context, accountID string) (*entities.Account, error) {
-				return expectedAcc, nil
+				return &expectedAcc, nil
 			},
 		}
 
@@ -25,7 +26,7 @@ func TestGetAccountByID(t *testing.T) {
 
 		account, err := accountUseCases.GetByID(context.Background(), expectedAcc.ID)
 		assert.Nil(t, err)
-		assert.Equal(t, expectedAcc, account)
+		assert.Equal(t, expectedAcc, *account)
 	})
 
 	t.Run("Erros should be the same", func(t *testing.T) {
