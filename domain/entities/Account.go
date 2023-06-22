@@ -3,8 +3,8 @@ package entities
 import (
 	"time"
 
-	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
+	"github.com/adao-henrique/go-challenge/domain/vo"
+	"github.com/adao-henrique/go-challenge/extensions"
 )
 
 type Account struct {
@@ -22,15 +22,18 @@ type CreateAccountInput struct {
 	Secret string
 }
 
-func NewAccount(name string, cpf string, secret string) *Account {
-	hashed, _ := bcrypt.GenerateFromPassword([]byte(secret), 8)
-
-	return &Account{
-		ID:        uuid.NewString(),
+func NewAccount(name string, cpf string, secret string) (Account, error) {
+	hashed, err := extensions.HASH(secret)
+	if err != nil {
+		return Account{}, err
+	}
+	account := Account{
+		ID:        vo.UUID(),
 		Name:      name,
 		Cpf:       cpf,
-		Secret:    string(hashed),
+		Secret:    *hashed,
 		Balance:   0,
 		CreatedAt: time.Now(),
 	}
+	return account, nil
 }

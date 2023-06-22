@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/adao-henrique/go-challenge/domain/entities"
+	"github.com/adao-henrique/go-challenge/extensions"
 	"github.com/stretchr/testify/assert"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type InputInit struct {
@@ -56,11 +56,11 @@ func TestCreateAccouunt(t *testing.T) {
 			Secret: secret,
 		}
 
-		hashed, _ := bcrypt.GenerateFromPassword([]byte(secret), 8)
+		hashed, _ := extensions.HASH(secret)
 		expect := &entities.Account{
 			Name:    "name test",
 			Cpf:     "451.856.400-65",
-			Secret:  string(hashed),
+			Secret:  *hashed,
 			Balance: 0,
 		}
 
@@ -71,7 +71,7 @@ func TestCreateAccouunt(t *testing.T) {
 		assert.Equal(t, expect.Cpf, account.Cpf, "CPFs shold be equals")
 		assert.Equal(t, expect.Balance, account.Balance, "Balances shold be equals")
 
-		err = bcrypt.CompareHashAndPassword([]byte(expect.Secret), []byte(secret))
+		err = extensions.CompareHashAndValue(expect.Secret, secret)
 		if err != nil {
 			assert.Fail(t, "Erro to compare secret")
 		}
@@ -104,7 +104,7 @@ func TestCreateAccouunt(t *testing.T) {
 
 		_, err := accountUseCases.CreateAccount(context.Background(), *input)
 
-		assert.Equal(t, ErrorCPFAlreadyUsed, err)
+		assert.ErrorIs(t, err, ErrorCPFAlreadyUsed)
 
 	})
 
@@ -133,7 +133,7 @@ func TestCreateAccouunt(t *testing.T) {
 
 		_, err := accountUseCases.CreateAccount(context.Background(), *input)
 
-		assert.Equal(t, ErrorCreateAccont, err)
+		assert.ErrorIs(t, err, ErrorCreateAccont)
 
 	})
 
