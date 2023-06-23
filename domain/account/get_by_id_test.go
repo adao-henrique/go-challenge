@@ -41,6 +41,6 @@ func TestGetAccountByID(t *testing.T) {
 		accountUseCases := Init(inputInit)
 		_, err := accountUseCases.GetByID(context.Background(), "")
 
-		assert.Equal(t, err, expectErr, "Erros should be the same")
+		assert.ErrorIs(t, err, expectErr, "Erros should be the same")
 	})
 }
