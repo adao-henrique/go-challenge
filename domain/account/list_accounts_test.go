@@ -44,6 +44,6 @@ func TestListAccounts(t *testing.T) {
 		accountUseCases := Init(inputInit)
 		_, err := accountUseCases.GetAccounts(context.Background())
 
-		assert.Equal(t, err, expectErr, "Erros should be the same")
+		assert.ErrorIs(t, err, expectErr, "Erros should be the same")
 	})
 }
