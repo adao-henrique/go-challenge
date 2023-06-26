@@ -17,8 +17,8 @@ func TestGetAccountByID(t *testing.T) {
 		assert.Nil(t, err)
 
 		inputInit := InputInit{
-			GetByIDMock: func(ctx context.Context, accountID string) (*entities.Account, error) {
-				return &expectedAcc, nil
+			GetByIDMock: func(ctx context.Context, accountID string) (entities.Account, error) {
+				return expectedAcc, nil
 			},
 		}
 
@@ -26,15 +26,15 @@ func TestGetAccountByID(t *testing.T) {
 
 		account, err := accountUseCases.GetByID(context.Background(), expectedAcc.ID)
 		assert.Nil(t, err)
-		assert.Equal(t, expectedAcc, *account)
+		assert.Equal(t, expectedAcc, account)
 	})
 
 	t.Run("Erros should be the same", func(t *testing.T) {
 		t.Parallel()
 		expectErr := errors.New("unable to fetch account")
 		inputInit := InputInit{
-			GetByIDMock: func(ctx context.Context, accountID string) (*entities.Account, error) {
-				return nil, expectErr
+			GetByIDMock: func(ctx context.Context, accountID string) (entities.Account, error) {
+				return entities.Account{}, expectErr
 			},
 		}
 

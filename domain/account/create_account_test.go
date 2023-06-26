@@ -14,12 +14,12 @@ func TestCreateAccouunt(t *testing.T) {
 	t.Run("Should create an account", func(t *testing.T) {
 		t.Parallel()
 		inputInit := InputInit{
-			CreateMock: func(ctx context.Context, account *entities.Account) error {
+			CreateMock: func(ctx context.Context, account entities.Account) error {
 				return nil
 			},
 
-			FindByCPFMock: func(ctx context.Context, cpf string) (*entities.Account, error) {
-				return nil, nil
+			FindByCPFMock: func(ctx context.Context, cpf string) (entities.Account, error) {
+				return entities.Account{}, nil
 			},
 		}
 		accountUseCases := Init(inputInit)
@@ -59,12 +59,12 @@ func TestCreateAccouunt(t *testing.T) {
 		ErrorCPFAlreadyUsed := errors.New("This CPF Already is used")
 
 		inputInit := InputInit{
-			CreateMock: func(ctx context.Context, account *entities.Account) error {
+			CreateMock: func(ctx context.Context, account entities.Account) error {
 				return nil
 			},
 
-			FindByCPFMock: func(ctx context.Context, cpf string) (*entities.Account, error) {
-				return nil, ErrorCPFAlreadyUsed
+			FindByCPFMock: func(ctx context.Context, cpf string) (entities.Account, error) {
+				return entities.Account{}, ErrorCPFAlreadyUsed
 			},
 		}
 
@@ -88,12 +88,12 @@ func TestCreateAccouunt(t *testing.T) {
 		ErrorCreateAccont := errors.New("Error to save acccount")
 
 		inputInit := InputInit{
-			CreateMock: func(ctx context.Context, account *entities.Account) error {
+			CreateMock: func(ctx context.Context, account entities.Account) error {
 				return ErrorCreateAccont
 			},
 
-			FindByCPFMock: func(ctx context.Context, cpf string) (*entities.Account, error) {
-				return nil, nil
+			FindByCPFMock: func(ctx context.Context, cpf string) (entities.Account, error) {
+				return entities.Account{}, nil
 			},
 		}
 
