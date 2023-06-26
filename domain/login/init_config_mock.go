@@ -18,6 +18,10 @@ func (uc AccountUseCaseMock) GetByCPF(ctx context.Context, cpf string) (entities
 	return uc.GetByCPFMock(ctx, cpf)
 }
 
+func (uc AccountUseCaseMock) GetByID(ctx context.Context, accountID string) (*entities.Account, error) {
+	return uc.GetByID(ctx, accountID)
+}
+
 func Init(input InputInit) LoginService {
 
 	accountUseCase := AccountUseCaseMock{

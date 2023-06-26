@@ -12,4 +12,5 @@ type AccountUseCases struct {
 
 type AccountUseCasesInterFace interface {
 	GetByCPF(ctx context.Context, cpf string) (entities.Account, error)
+	GetByID(ctx context.Context, accountID string) (*entities.Account, error)
 }
