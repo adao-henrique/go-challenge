@@ -1,6 +1,7 @@
 package entities
 
 import (
+	"errors"
 	"time"
 
 	"github.com/adao-henrique/go-challenge/domain/vo"
@@ -12,8 +13,32 @@ type Account struct {
 	Name      string
 	Cpf       string
 	Secret    string
-	Balance   int
+	Balance   float64
 	CreatedAt time.Time
+}
+
+func (a *Account) WithdrawBalance(amount float64) error {
+	if amount <= 0 {
+		return errors.New("invalid amount value")
+	}
+
+	if amount > a.Balance {
+		return errors.New("the account has insufficient funds")
+	}
+
+	a.Balance -= amount
+
+	return nil
+}
+
+func (a *Account) DepositBalance(amount float64) error {
+	if amount <= 0 {
+		return errors.New("invalid amount value")
+	}
+
+	a.Balance += amount
+
+	return nil
 }
 
 type CreateAccountInput struct {
