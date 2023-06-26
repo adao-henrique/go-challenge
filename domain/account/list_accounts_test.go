@@ -20,8 +20,8 @@ func TestListAccounts(t *testing.T) {
 		expectedAcc := []entities.Account{account}
 
 		inputInit := InputInit{
-			GetAccountsMock: func(ctx context.Context) (*[]entities.Account, error) {
-				return &expectedAcc, nil
+			GetAccountsMock: func(ctx context.Context) ([]entities.Account, error) {
+				return expectedAcc, nil
 			},
 		}
 
@@ -29,14 +29,14 @@ func TestListAccounts(t *testing.T) {
 		accounts, err := accountUseCases.GetAccounts(context.Background())
 		assert.Nil(t, err)
 
-		assert.Equal(t, accounts, &expectedAcc)
+		assert.Equal(t, accounts, expectedAcc)
 	})
 
 	t.Run("Erros should be the same", func(t *testing.T) {
 		t.Parallel()
 		expectErr := errors.New("unable to fetch accounts")
 		inputInit := InputInit{
-			GetAccountsMock: func(ctx context.Context) (*[]entities.Account, error) {
+			GetAccountsMock: func(ctx context.Context) ([]entities.Account, error) {
 				return nil, expectErr
 			},
 		}
