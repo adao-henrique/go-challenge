@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCreateAccouunt(t *testing.T) {
-	t.Run("Should create an account", func(t *testing.T) {
+func TestCreateTransfers(t *testing.T) {
+	t.Run("Should create an account transfer", func(t *testing.T) {
 		t.Parallel()
 
 		accountOrigin, err := entities.NewAccount("account-origin", "208.990.000-88", "secret-account--origin")
@@ -27,18 +27,18 @@ func TestCreateAccouunt(t *testing.T) {
 			Amount:      amount,
 		}
 
-		inputInit := InputInit{
-			TransferMock: func(ctx context.Context, input entities.InputTransfer) (entities.Transfer, error) {
-				return input.Transfer, nil
-			},
-
-			GetByIDMock: func(ctx context.Context, ID string) (*entities.Account, error) {
-				if ID == accountOrigin.ID {
-					return &accountOrigin, nil
-				}
-				return &accountDestination, nil
-			},
+		transferMock := func(ctx context.Context, input entities.InputTransfer) (entities.Transfer, error) {
+			return input.Transfer, nil
 		}
+
+		getByIDMock := func(ctx context.Context, ID string) (*entities.Account, error) {
+			if ID == accountOrigin.ID {
+				return &accountOrigin, nil
+			}
+			return &accountDestination, nil
+		}
+
+		inputInit := InputInit{TransferMock: transferMock, GetByIDMock: getByIDMock}
 		transferUseCases := Init(inputInit)
 
 		_, err = transferUseCases.transfer(context.Background(), inputTransfer)

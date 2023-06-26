@@ -8,4 +8,5 @@ import (
 
 type Repository interface {
 	MakeTransfer(ctx context.Context, input entities.InputTransfer) (entities.Transfer, error)
+	ListTransfersByAccountID(ctx context.Context, accountOriginID string) ([]entities.Transfer, error)
 }
