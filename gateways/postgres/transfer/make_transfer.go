@@ -20,6 +20,16 @@ func (r Repository) MakeTransfer(ctx context.Context, input entities.InputTransf
 		}
 	}()
 
+	err = r.updateBalanceFromAccount(ctx, tx, input.AccOrigin)
+	if err != nil {
+		return entities.Transfer{}, err
+	}
+
+	err = r.updateBalanceFromAccount(ctx, tx, input.AccOrigin)
+	if err != nil {
+		return entities.Transfer{}, err
+	}
+
 	sql := `insert into transfer(id, account_origin_id, account_destination_id, amount, created_at) Values ($1, $2, $3, $4, $5)`
 
 	_, err = tx.Exec(
