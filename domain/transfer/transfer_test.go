@@ -41,7 +41,7 @@ func TestCreateTransfers(t *testing.T) {
 		inputInit := InputInit{TransferMock: transferMock, GetByIDMock: getByIDMock}
 		transferUseCases := Init(inputInit)
 
-		_, err = transferUseCases.transfer(context.Background(), inputTransfer)
+		_, err = transferUseCases.Transfer(context.Background(), inputTransfer)
 		assert.Nil(t, err)
 
 		assert.Equal(t, amount, accountOrigin.Balance)

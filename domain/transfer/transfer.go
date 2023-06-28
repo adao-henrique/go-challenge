@@ -6,7 +6,7 @@ import (
 	"github.com/adao-henrique/go-challenge/domain/entities"
 )
 
-func (uc TransferUseCases) transfer(ctx context.Context, input entities.CreateTransferInput) (entities.Transfer, error) {
+func (uc TransferUseCases) Transfer(ctx context.Context, input entities.CreateTransferInput) (entities.Transfer, error) {
 
 	accDest, err := uc.accountUseCases.GetByID(ctx, input.AccDestId)
 	if err != nil {
