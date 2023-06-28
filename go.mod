@@ -9,6 +9,12 @@ require (
 )
 
 require (
+	github.com/go-chi/chi/v5 v5.0.8 // indirect
+	github.com/jackc/puddle/v2 v2.2.0 // indirect
+	golang.org/x/sync v0.3.0 // indirect
+)
+
+require (
 	github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 // indirect
@@ -31,6 +37,7 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20221227161230-091c0ba34f0a // indirect
 	github.com/jackc/pgx/v5 v5.4.1 // indirect
 	github.com/joho/godotenv v1.5.1
+	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/lib/pq v1.10.2 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/moby/term v0.5.0 // indirect
