@@ -31,17 +31,30 @@ func ValidateToken(token string, customClaims map[string]string) (bool, error) {
 		return []byte(os.Getenv("JWT_SECRET_KEY")), nil
 	})
 
-	// if err != nil {
-	// 	fmt.Println(tkn, err)
-	// 	return false, err
-	// }
-
 	for key, v := range customClaims {
 		if claims[key] != v {
-			return false, errors.New("Error to get jwt claims")
+			return false, errors.New("error to get jwt claims")
 		}
 	}
 
 	return true, nil
 
+}
+
+func GetClaims(token string) (jwt.MapClaims, error) {
+	claims := jwt.MapClaims{}
+
+	if token == "" {
+		return nil, errors.New("token not found")
+	}
+
+	j, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(os.Getenv("AUTH_SECRET")), nil
+	})
+
+	if err != nil || !j.Valid {
+		return nil, errors.New("invalid token")
+	}
+
+	return claims, nil
 }

@@ -28,7 +28,7 @@ func TestCreateLogin(t *testing.T) {
 		}
 
 		loginService := Init(inputInit)
-		token, err := loginService.login(ctx, LoginUserInput{cpf: cpf, secret: secret})
+		token, err := loginService.Login(ctx, LoginUserInput{Cpf: cpf, Secret: secret})
 		assert.Nil(t, err)
 
 		result, err := extensions.ValidateToken(token, customClaims)
@@ -52,7 +52,7 @@ func TestCreateLogin(t *testing.T) {
 		}
 
 		loginService := Init(inputInit)
-		_, err := loginService.login(ctx, LoginUserInput{cpf: cpf, secret: secret})
+		_, err := loginService.Login(ctx, LoginUserInput{Cpf: cpf, Secret: secret})
 		assert.Equal(t, err, errors.New("invalid CPF"))
 	})
 
@@ -73,7 +73,7 @@ func TestCreateLogin(t *testing.T) {
 		}
 
 		loginService := Init(inputInit)
-		_, err := loginService.login(ctx, LoginUserInput{cpf: cpf, secret: incorrectSecret})
+		_, err := loginService.Login(ctx, LoginUserInput{Cpf: cpf, Secret: incorrectSecret})
 
 		assert.Equal(t, err, errors.New("erro comparar secrets"))
 	})
