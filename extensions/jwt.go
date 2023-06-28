@@ -5,31 +5,33 @@ import (
 	"os"
 	"time"
 
-	"github.com/golang-jwt/jwt"
+	"github.com/go-chi/jwtauth/v5"
 )
 
-func NewJWT(customClaims map[string]string) (string, error) {
-	claims := jwt.MapClaims{}
-	claims["exp"] = time.Now().Add(10 * time.Minute)
+func GetJWTAuth() *jwtauth.JWTAuth {
+	return jwtauth.New("HS256", []byte(os.Getenv("JWT_SECRET_KEY")), nil)
+}
 
-	for key, v := range customClaims {
-		claims[key] = v
-	}
+func NewJWT(customClaims map[string]interface{}) (string, error) {
+	secret := os.Getenv("JWT_SECRET_KEY")
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET_KEY")))
-	if err != nil {
-		return "", err
-	}
+	tokenAuth := jwtauth.New("HS256", []byte(secret), nil)
+	expiretIn := time.Now().Add(10 * time.Minute)
+
+	customClaims["ext"] = expiretIn.Unix()
+	_, tokenString, _ := tokenAuth.Encode(customClaims)
 
 	return tokenString, nil
 }
 
 func ValidateToken(token string, customClaims map[string]string) (bool, error) {
-	claims := jwt.MapClaims{}
-	jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("JWT_SECRET_KEY")), nil
-	})
+	tokenAuth := jwtauth.New("HS256", []byte(os.Getenv("JWT_SECRET_KEY")), nil)
+	jwtToken, err := jwtauth.VerifyToken(tokenAuth, token)
+	if err != nil {
+		return false, err
+	}
+
+	claims := jwtToken.PrivateClaims()
 
 	for key, v := range customClaims {
 		if claims[key] != v {
@@ -41,20 +43,13 @@ func ValidateToken(token string, customClaims map[string]string) (bool, error) {
 
 }
 
-func GetClaims(token string) (jwt.MapClaims, error) {
-	claims := jwt.MapClaims{}
-
-	if token == "" {
-		return nil, errors.New("token not found")
+func GetClaims(token string) (map[string]interface{}, error) {
+	tokenAuth := jwtauth.New("HS256", []byte(os.Getenv("JWT_SECRET_KEY")), nil)
+	jwtToken, err := jwtauth.VerifyToken(tokenAuth, token)
+	if err != nil {
+		return nil, err
 	}
 
-	j, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(os.Getenv("AUTH_SECRET")), nil
-	})
-
-	if err != nil || !j.Valid {
-		return nil, errors.New("invalid token")
-	}
-
+	claims := jwtToken.PrivateClaims()
 	return claims, nil
 }

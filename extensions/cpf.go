@@ -7,11 +7,6 @@ import (
 	"strings"
 )
 
-var (
-	cpfFirstDigitTable  = []int{10, 9, 8, 7, 6, 5, 4, 3, 2}
-	cpfSecondDigitTable = []int{11, 10, 9, 8, 7, 6, 5, 4, 3, 2}
-)
-
 func ValidateCPF(cpf string) bool {
 	rgx := regexp.MustCompile(`^\d{3}\.\d{3}\.\d{3}-\d{2}$`)
 
@@ -61,25 +56,6 @@ func ValidateCPF(cpf string) bool {
 	}
 
 	return false
-}
-
-func sumDigit(s string, table []int) int {
-
-	if len(s) != len(table) {
-		return 0
-	}
-
-	sum := 0
-
-	for i, v := range table {
-		c := string(s[i])
-		d, err := strconv.Atoi(c)
-		if err == nil {
-			sum += v * d
-		}
-	}
-
-	return sum
 }
 
 // Clean can be used for cleaning formatted documents
