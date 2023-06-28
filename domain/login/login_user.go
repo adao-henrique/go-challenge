@@ -27,7 +27,7 @@ func (ls LoginService) Login(ctx context.Context, input LoginUserInput) (string,
 		return "", errors.New("erro comparar secrets")
 	}
 
-	customClaims := map[string]string{
+	customClaims := map[string]interface{}{
 		"account_origin_id": account.ID,
 	}
 
