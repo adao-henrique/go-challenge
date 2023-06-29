@@ -1,11 +1,13 @@
 package transfer
 
-import "github.com/jackc/pgx/v5"
+import (
+	"github.com/jackc/pgx/v5/pgxpool"
+)
 
 type Repository struct {
-	db pgx.Conn
+	db *pgxpool.Pool
 }
 
-func NewRepository(db pgx.Conn) (Repository, error) {
-	return Repository{db}, nil
+func NewRepository(db *pgxpool.Pool) Repository {
+	return Repository{db}
 }

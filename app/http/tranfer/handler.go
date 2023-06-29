@@ -7,3 +7,7 @@ import (
 type Handler struct {
 	transferUseCase transfer.TransferUseCases
 }
+
+func NewHandler(transferUseCase transfer.TransferUseCases) Handler {
+	return Handler{transferUseCase: transferUseCase}
+}

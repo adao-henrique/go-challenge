@@ -2,6 +2,7 @@ package account
 
 import (
 	"context"
+	"log"
 
 	"github.com/adao-henrique/go-challenge/domain/entities"
 )
@@ -10,6 +11,7 @@ func (r Repository) Create(ctx context.Context, account entities.Account) error 
 
 	tx, err := r.db.Begin(ctx)
 	if err != nil {
+		log.Printf("error to create transaction ", err)
 		return err
 	}
 
@@ -21,13 +23,14 @@ func (r Repository) Create(ctx context.Context, account entities.Account) error 
 		}
 	}()
 
-	sql := `insert into public.account(id, name, cpf, balance, created_at) values ($1,$2,$3,$4,$5)`
+	sql := `insert into account(id, name, cpf, secret, balance, created_at) values ($1,$2,$3,$4,$5,$6)`
 	_, err = tx.Exec(
 		ctx,
 		sql,
 		account.ID,
 		account.Name,
 		account.Cpf,
+		account.Secret,
 		account.Balance,
 		account.CreatedAt)
 

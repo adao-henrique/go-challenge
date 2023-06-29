@@ -10,7 +10,7 @@ import (
 
 func (h Handler) GetBalanceFromAccount(w http.ResponseWriter, r *http.Request) {
 
-	accountID := chi.URLParam(r, "date")
+	accountID := chi.URLParam(r, "account_id")
 
 	account, err := h.accountUseCase.GetByID(r.Context(), accountID)
 	if err != nil {

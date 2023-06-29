@@ -57,7 +57,7 @@ func NewAccount(name string, cpf string, secret string) (Account, error) {
 		Name:      name,
 		Cpf:       cpf,
 		Secret:    *hashed,
-		Balance:   0,
+		Balance:   1000.0,
 		CreatedAt: time.Now(),
 	}
 	return account, nil

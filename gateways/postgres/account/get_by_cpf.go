@@ -9,10 +9,11 @@ import (
 func (r Repository) GetByCPF(ctx context.Context, cpf string) (entities.Account, error) {
 
 	account := entities.Account{}
-	err := r.db.QueryRow(ctx, "select id, name, cpf, balance, created_at from public.account where cpf=$1", cpf).Scan(
+	err := r.db.QueryRow(ctx, "select id, name, cpf, secret, balance, created_at from account where cpf=$1", cpf).Scan(
 		&account.ID,
 		&account.Name,
 		&account.Cpf,
+		&account.Secret,
 		&account.Balance,
 		&account.CreatedAt,
 	)

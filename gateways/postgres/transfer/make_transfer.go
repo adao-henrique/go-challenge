@@ -25,7 +25,7 @@ func (r Repository) MakeTransfer(ctx context.Context, input entities.InputTransf
 		return entities.Transfer{}, err
 	}
 
-	err = r.updateBalanceFromAccount(ctx, tx, input.AccOrigin)
+	err = r.updateBalanceFromAccount(ctx, tx, input.AccDest)
 	if err != nil {
 		return entities.Transfer{}, err
 	}

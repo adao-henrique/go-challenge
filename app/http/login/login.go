@@ -2,6 +2,7 @@ package login
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/adao-henrique/go-challenge/domain/login"
@@ -15,7 +16,7 @@ func (h Handler) Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(reqBody)
+		w.Write([]byte(fmt.Sprintf("error to read login request: %s", err)))
 		return
 	}
 
@@ -26,11 +27,11 @@ func (h Handler) Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(reqBody)
+		w.Write([]byte(fmt.Sprintf("login error: %s", err)))
 		return
 	}
 
-	w.Header().Set("Content-Type", "text/plain")
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(token)
+	json.NewEncoder(w).Encode(LoginResponse{Token: token})
 }
