@@ -9,7 +9,7 @@ import (
 func (r Repository) GetAccounts(ctx context.Context) ([]entities.Account, error) {
 	var accounts []entities.Account
 
-	rows, err := r.db.Query(ctx, "select id, name, cpf, balance, created_at from public.account")
+	rows, err := r.db.Query(ctx, "select id, name, cpf, balance, created_at from account")
 	if err != nil {
 		return nil, err
 	}

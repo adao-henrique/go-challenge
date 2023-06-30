@@ -2,6 +2,7 @@ package account
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/adao-henrique/go-challenge/domain/entities"
@@ -14,7 +15,7 @@ func (h Handler) CreateAccount(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(reqBody)
+		w.Write([]byte(fmt.Sprintf("error to create account: %s", err)))
 		return
 	}
 
@@ -25,8 +26,9 @@ func (h Handler) CreateAccount(w http.ResponseWriter, r *http.Request) {
 	})
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(reqBody)
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprintf("error to create account: %s", err)))
+		return
 	}
 
 	response := AccountResponse{

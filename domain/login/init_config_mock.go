@@ -12,14 +12,14 @@ type InputInit struct {
 
 type AccountUseCaseMock struct {
 	GetByCPFMock func(ctx context.Context, cpf string) (entities.Account, error)
-	GetByIDMock  func(ctx context.Context, accountID string) (*entities.Account, error)
+	GetByIDMock  func(ctx context.Context, accountID string) (entities.Account, error)
 }
 
 func (uc AccountUseCaseMock) GetByCPF(ctx context.Context, cpf string) (entities.Account, error) {
 	return uc.GetByCPFMock(ctx, cpf)
 }
 
-func (uc AccountUseCaseMock) GetByID(ctx context.Context, accountID string) (*entities.Account, error) {
+func (uc AccountUseCaseMock) GetByID(ctx context.Context, accountID string) (entities.Account, error) {
 	return uc.GetByIDMock(ctx, accountID)
 }
 

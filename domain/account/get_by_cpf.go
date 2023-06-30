@@ -7,7 +7,7 @@ import (
 )
 
 func (accountUseCases AccountUseCases) GetByCPF(ctx context.Context, cpf string) (entities.Account, error) {
-	account, err := accountUseCases.repository.FindByCPF(ctx, cpf)
+	account, err := accountUseCases.repository.GetByCPF(ctx, cpf)
 	if err != nil {
 		return entities.Account{}, err
 	}

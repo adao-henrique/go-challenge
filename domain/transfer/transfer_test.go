@@ -31,20 +31,20 @@ func TestCreateTransfers(t *testing.T) {
 			return input.Transfer, nil
 		}
 
-		getByIDMock := func(ctx context.Context, ID string) (*entities.Account, error) {
+		getByIDMock := func(ctx context.Context, ID string) (entities.Account, error) {
 			if ID == accountOrigin.ID {
-				return &accountOrigin, nil
+				return accountOrigin, nil
 			}
-			return &accountDestination, nil
+			return accountDestination, nil
 		}
 
 		inputInit := InputInit{TransferMock: transferMock, GetByIDMock: getByIDMock}
 		transferUseCases := Init(inputInit)
 
-		_, err = transferUseCases.Transfer(context.Background(), inputTransfer)
+		transfer, err := transferUseCases.Transfer(context.Background(), inputTransfer)
 		assert.Nil(t, err)
 
-		assert.Equal(t, amount, accountOrigin.Balance)
-		assert.Equal(t, amount, accountDestination.Balance)
+		assert.Equal(t, accountOrigin.ID, transfer.AccOriginId)
+		assert.Equal(t, accountDestination.ID, transfer.AccDestId)
 	})
 }

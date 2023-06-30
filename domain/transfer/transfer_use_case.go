@@ -15,3 +15,13 @@ type TransferUseCases struct {
 type TransferUseCasesInterFace interface {
 	transfer(ctx context.Context, input entities.CreateTransferInput) (entities.Account, error)
 }
+
+func NewUseCase(
+	repository Repository,
+	accountUseCases account.AccountUseCasesInterFace,
+) TransferUseCases {
+	return TransferUseCases{
+		repository:      repository,
+		accountUseCases: accountUseCases,
+	}
+}

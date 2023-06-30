@@ -21,27 +21,29 @@ var tokenAuth *jwtauth.JWTAuth
 
 func (a API) AccountAPI() {
 
-	a.r.Route("/account", func(rs chi.Router) {
+	a.r.Group(func(rs chi.Router) {
 		rs.Use(jwtauth.Verifier(tokenAuth))
-		rs.Get("/", a.accountHandler.GetAccounts)
-		rs.Get("/{account_id}/balance", a.accountHandler.GetBalanceFromAccount)
+		rs.Use(jwtauth.Authenticator)
+		rs.Get("/account/", a.accountHandler.GetAccounts)
+		rs.Get("/account/{account_id}/balance/", a.accountHandler.GetBalanceFromAccount)
 	})
 
-	a.r.Route("/account", func(rs chi.Router) {
-		rs.Post("/", a.accountHandler.CreateAccount)
+	a.r.Group(func(rs chi.Router) {
+		rs.Post("/account/", a.accountHandler.CreateAccount)
 	})
 }
 
 func (a API) TranferAPI() {
 	a.r.Route("/transfer", func(rs chi.Router) {
 		rs.Use(jwtauth.Verifier(tokenAuth))
+		rs.Use(jwtauth.Authenticator)
 		rs.Get("/", a.transferHandler.GetTransferFromUSer)
 		rs.Post("/", a.transferHandler.MakeTransfer)
 	})
 }
 
 func (a API) LoginAPI() {
-	a.r.Post("/login", a.loginHandler.Login)
+	a.r.Post("/login/", a.loginHandler.Login)
 }
 
 func NewApi(

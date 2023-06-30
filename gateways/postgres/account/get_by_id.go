@@ -9,7 +9,7 @@ import (
 func (r Repository) GetByID(ctx context.Context, accountID string) (entities.Account, error) {
 
 	account := entities.Account{}
-	err := r.db.QueryRow(ctx, "select id, name, cpf, balance, created_at from public.account where id=$1", accountID).Scan(
+	err := r.db.QueryRow(ctx, "select id, name, cpf, balance, created_at from account where id=$1", accountID).Scan(
 		&account.ID,
 		&account.Name,
 		&account.Cpf,
