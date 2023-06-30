@@ -6,18 +6,18 @@ import (
 	"net/http"
 )
 
+// ShowTransfer godoc
+// @Summary      Show all transfer from user
+// @Description  Show all transfer from user
+// @Tags         transfer
+// @Accept       json
+// @Produce      json
+// @Success      200  {array}  	TransferResponse
+// @Failure      400  {string}	string
+// @Failure      404  {string}	string
+// @Failure      500  {string}	string
+// @Router       /transfer/ 		[get]
 func (h Handler) GetTransferFromUSer(w http.ResponseWriter, r *http.Request) {
-	// token := r.Header.Get("authorization")
-	// token = strings.Replace(token, "Bearer ", "", -1)
-
-	// accountID, err :=h.loginService.Autenticate(token)
-	// if err != nil {
-	// 	w.Header().Set("Content-Type", "application/json")
-	// 	w.WriteHeader(http.StatusInternalServerError)
-	// 	w.Write([]byte(fmt.Sprintf("error fetching account %s. %s", accountID, err)))
-	// 	return
-	// }
-
 	accountID, _ := r.Context().Value("account_origin_id").(string)
 
 	transfers, err := h.transferUseCase.List(r.Context(), accountID)

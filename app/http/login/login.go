@@ -8,6 +8,17 @@ import (
 	"github.com/adao-henrique/go-challenge/domain/login"
 )
 
+// ShowLogin godoc
+// @Summary      User Login
+// @Description  User Login
+// @Tags         login
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  LoginResponse
+// @Failure      400  {string}	string
+// @Failure      404  {string}	string
+// @Failure      500  {string}	string
+// @Router       /login 		[post]
 func (h Handler) Login(w http.ResponseWriter, r *http.Request) {
 
 	var reqBody LoginRequest
