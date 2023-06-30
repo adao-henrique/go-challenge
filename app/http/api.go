@@ -23,8 +23,9 @@ func (a API) AccountAPI() {
 
 	a.r.Group(func(rs chi.Router) {
 		rs.Use(jwtauth.Verifier(tokenAuth))
+		rs.Use(jwtauth.Authenticator)
 		rs.Get("/account/", a.accountHandler.GetAccounts)
-		rs.Get("/account/{account_id}/balance", a.accountHandler.GetBalanceFromAccount)
+		rs.Get("/account/{account_id}/balance/", a.accountHandler.GetBalanceFromAccount)
 	})
 
 	a.r.Group(func(rs chi.Router) {
@@ -35,13 +36,14 @@ func (a API) AccountAPI() {
 func (a API) TranferAPI() {
 	a.r.Route("/transfer", func(rs chi.Router) {
 		rs.Use(jwtauth.Verifier(tokenAuth))
+		rs.Use(jwtauth.Authenticator)
 		rs.Get("/", a.transferHandler.GetTransferFromUSer)
 		rs.Post("/", a.transferHandler.MakeTransfer)
 	})
 }
 
 func (a API) LoginAPI() {
-	a.r.Post("/login", a.loginHandler.Login)
+	a.r.Post("/login/", a.loginHandler.Login)
 }
 
 func NewApi(
