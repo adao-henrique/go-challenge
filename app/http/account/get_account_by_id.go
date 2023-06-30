@@ -8,6 +8,18 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
+// ShowAccount godoc
+// @Summary      Show balance from account
+// @Description  get string by ID
+// @Tags         accounts
+// @Accept       json
+// @Produce      json
+// @Param        account_id   path      int  true  "Account ID"
+// @Success      200  {object}  BalanceResponse
+// @Failure      400  {string}	string
+// @Failure      404  {string}	string
+// @Failure      500  {string}	string
+// @Router       /account/{account_id}/balance [get]
 func (h Handler) GetBalanceFromAccount(w http.ResponseWriter, r *http.Request) {
 
 	accountID := chi.URLParam(r, "account_id")

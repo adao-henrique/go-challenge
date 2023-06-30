@@ -8,6 +8,17 @@ import (
 	"github.com/adao-henrique/go-challenge/domain/entities"
 )
 
+// ShowAccount godoc
+// @Summary      Create account
+// @Description  Create account
+// @Tags         accounts
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  AccountResponse
+// @Failure      400  {string}	string
+// @Failure      404  {string}	string
+// @Failure      500  {string}	string
+// @Router       /account/ [post]
 func (h Handler) CreateAccount(w http.ResponseWriter, r *http.Request) {
 	var reqBody AccountRequest
 

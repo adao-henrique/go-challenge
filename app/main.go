@@ -11,11 +11,14 @@ import (
 	handler_account "github.com/adao-henrique/go-challenge/app/http/account"
 	handler_login "github.com/adao-henrique/go-challenge/app/http/login"
 	handler_transfer "github.com/adao-henrique/go-challenge/app/http/tranfer"
+	_ "github.com/adao-henrique/go-challenge/docs"
 	usecase_account "github.com/adao-henrique/go-challenge/domain/account"
 	service_loin "github.com/adao-henrique/go-challenge/domain/login"
 	usecase_transfer "github.com/adao-henrique/go-challenge/domain/transfer"
 	repository_accouunt "github.com/adao-henrique/go-challenge/gateways/postgres/account"
 	repository_transfer "github.com/adao-henrique/go-challenge/gateways/postgres/transfer"
+	httpSwagger "github.com/swaggo/http-swagger/v2"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 
@@ -58,6 +61,9 @@ func main() {
 
 	log.Println("Init create API")
 	http_api.NewApi(r, acccountHandler, transferHandler, loginHandler)
+	r.Get("/swagger/*", httpSwagger.Handler(
+		httpSwagger.URL("http://localhost:8080/swagger/doc.json"), //The url pointing to API definition
+	))
 
 	log.Println("Start apllication")
 	http.ListenAndServe(":8080", r)

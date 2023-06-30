@@ -11,6 +11,17 @@ import (
 	"github.com/adao-henrique/go-challenge/extensions"
 )
 
+// ShowTransfer godoc
+// @Summary      Make a transfer
+// @Description  Make a transfer
+// @Tags         transfer
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  TransferResponse
+// @Failure      400  {string}	string
+// @Failure      404  {string}	string
+// @Failure      500  {string}	string
+// @Router       /transfer/ 		[post]
 func (h Handler) MakeTransfer(w http.ResponseWriter, r *http.Request) {
 	var reqBody TransferRequest
 

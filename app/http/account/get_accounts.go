@@ -6,6 +6,17 @@ import (
 	"net/http"
 )
 
+// ShowAccount godoc
+// @Summary      Show accounts
+// @Description  get list of accounts
+// @Tags         accounts
+// @Accept       json
+// @Produce      json
+// @Success      200  {object}  AccountResponse
+// @Failure      400  {string}	string
+// @Failure      404  {string}	string
+// @Failure      500  {string}	string
+// @Router       /account [get]
 func (h Handler) GetAccounts(w http.ResponseWriter, r *http.Request) {
 
 	accounts, err := h.accountUseCase.GetAccounts(r.Context())
